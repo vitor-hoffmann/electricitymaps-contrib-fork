@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { afterAll,beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { getConfig } from '../scripts/generateZonesConfig';
 import { generateAggregates } from './generateAggregates';
@@ -33,7 +33,7 @@ describe('generateTopojson', () => {
     }
   });
 
-  it('should calculate the correct center for the aggregated US zone', () => {
+  it('should calculate the correct center for the aggregated US and RU zone', () => {
     // Step 1: Create the aggregated features, similar to generateWorld.ts
     const aggregatedFeatures = generateAggregates(originalWorldFc, config.zones);
     const worldFC: WorldFeatureCollection = {
@@ -56,5 +56,11 @@ describe('generateTopojson', () => {
     // The expected value is the correct center of the contiguous US.
     expect(usCenter[0]).to.be.closeTo(-98.6, 1);
     expect(usCenter[1]).to.be.closeTo(39.8, 1);
+
+    const ruCenter = resultTopo.objects.RU?.properties?.center;
+    expect(ruCenter).toBeDefined();
+    // The expected value is the correct center of Russia.
+    expect(ruCenter[0]).to.be.closeTo(95.7, 1);
+    expect(ruCenter[1]).to.be.closeTo(61.5, 1);
   });
 });
