@@ -18,6 +18,9 @@ function getCenter(geojson: WorldFeatureCollection, zoneName: string) {
     case 'US': {
       return [-98.6, 39.8];
     }
+    case 'RU': {
+      return [95.7, 61.5];
+    }
     default: {
       [0, 0];
     }
